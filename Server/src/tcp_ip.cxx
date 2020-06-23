@@ -1,6 +1,6 @@
 #include "../inc/tcp_ip.hpp"
 
-Tcp_ip::Tcp_ip(int port_num, char* ip_addres)
+Tcp_ip::Tcp_ip(int port_num, const char* ip_addres)
 : _port(port_num), _ip_addres(ip_addres)
 {
 

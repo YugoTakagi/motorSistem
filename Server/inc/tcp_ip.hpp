@@ -13,13 +13,13 @@ class Tcp_ip
 {
 private:
     unsigned short _port;
-    char* _ip_addres;
+    const char* _ip_addres;
     struct sockaddr_in _addr;
 
     void Making_sockaddr_in();
     bool Connecting(int soc);
 public:
-    Tcp_ip(int port_num, char* ip_addres);
+    Tcp_ip(int port_num, const char* ip_addres);
     ~Tcp_ip();
 
     bool Client(int port_num);
