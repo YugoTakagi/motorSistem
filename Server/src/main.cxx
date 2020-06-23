@@ -15,7 +15,7 @@ int main(void)
         std::cin >> buf;
         if(buf == "exit") break;
         std::cout << "key: ["<<buf<<"]" << std::endl;
-        tcp.Server(buf.c_str());
+        tcp.Client(buf.c_str());
     }
     
     return 0;
