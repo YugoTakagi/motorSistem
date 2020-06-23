@@ -4,9 +4,12 @@
 class Server
 {
 private:
-    /* data */
+    int _port_num;
+    const char* _ip_addres;
+
+    Tcp_ip tcsok1;
 public:
-    Server(/* args */);
+    Server(int port_num, const char* ip_addres);
     ~Server();
 };
 
