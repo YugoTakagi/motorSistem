@@ -5,7 +5,8 @@ PidControler::PidControler(float dt)
 {
     _adjustment = 0.0;
     _integral = 0.0;
-    _diff[2] = {0.0};
+    _diff[0] = 0.0;
+    _diff[1] = 0.0;
 
     _gainCeck = false;
 }

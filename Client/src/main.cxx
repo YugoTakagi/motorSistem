@@ -7,7 +7,7 @@ int main(void)
     const char* item = "12345";
 
     Tcp_ip tcp;
-    // tcp.client(port);
-    tcp.server(port, adr, item);
+    tcp.client(port);
+    // tcp.server(port, adr, item);
     return 0;
 }

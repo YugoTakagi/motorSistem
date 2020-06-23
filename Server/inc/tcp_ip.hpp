@@ -1,4 +1,8 @@
+#ifndef TCP_IP
+#define TCP_IP
+
 #include <iostream>
+#include <strings.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 using namespace std;
@@ -8,11 +12,17 @@ using namespace std;
 class Tcp_ip
 {
 private:
-    /* data */
+    unsigned short _port;
+    char* _ip_addres;
+    struct sockaddr_in _addr;
+
+    void Making_sockaddr_in();
+    bool Connecting(int soc);
 public:
-    Tcp_ip(/* args */);
+    Tcp_ip(int port_num, char* ip_addres);
     ~Tcp_ip();
 
-    bool client(int port_num);
-    bool server(int port_num, const char* ip_addres, const char* send_text);
+    bool Client(int port_num);
+    bool Server(const char* send_text);
 };
+#endif//TCP_IP

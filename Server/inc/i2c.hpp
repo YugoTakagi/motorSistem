@@ -1,3 +1,6 @@
+#ifndef I2C
+#define I2C
+
 class I2c
 {
 private:
@@ -6,11 +9,4 @@ public:
     I2c(/* args */);
     ~I2c();
 };
-
-I2c::I2c(/* args */)
-{
-}
-
-I2c::~I2c()
-{
-}
+#endif//I2C

@@ -10,9 +10,10 @@ private:
     int _port_num;
     const char* _ip_addres;
 
-    Tcp_ip tcsok1;
-    I2c i2c;
-    PidControler pidc();
+    // Tcp_ip tcsok1;
+    // I2c i2c;
+    // PidControler pidc();
+    // Virtual_motor vm;
 public:
     Server(int port_num, const char* ip_addres);
     ~Server();

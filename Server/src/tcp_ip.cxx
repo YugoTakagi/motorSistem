@@ -1,67 +1,53 @@
 #include "../inc/tcp_ip.hpp"
 
-Tcp_ip::Tcp_ip(/* args */)
+Tcp_ip::Tcp_ip(int port_num, char* ip_addres)
+: _port(port_num), _ip_addres(ip_addres)
 {
+
 }
 
 Tcp_ip::~Tcp_ip()
 {
 }
 
-bool Tcp_ip::server(int port_num, const char* ip_addres, const char* send_text){
-    // IP アドレス、ポート番号、ソケット
-    unsigned short port = port_num;
-    int dst_socket;
+void Tcp_ip::Making_sockaddr_in(){
+    // sockaddr_in の 初期化
+    bzero( &_addr, sizeof(_addr) );
+    _addr.sin_family = AF_INET;
+    _addr.sin_port   = htons(_port);
+    inet_aton( _ip_addres, &_addr.sin_addr );
+};
 
-    // 各種パラメータ
-    int status;
-    int numsnt;
-
-    // sockaddr_in 構造体
-    struct sockaddr_in dst_addr;
-
-    // sockaddr_in 構造体のセット
-    memset(&dst_addr, 0, sizeof(dst_addr));
-    dst_addr.sin_addr.s_addr = inet_addr(ip_addres);
-    dst_addr.sin_port = htons(port);
-    dst_addr.sin_family = AF_INET;
-
-    // ソケット生成
-    dst_socket = socket(AF_INET, SOCK_STREAM, 0);
-
-
-    // 接続
+bool Tcp_ip::Connecting(int soc){
     cout << "Waiting for connection ...  [by_server: send]" << endl;
-
-    int con = connect(dst_socket, (struct sockaddr *)&dst_addr, sizeof(dst_addr));
-    if(con == 0){
+    int connect_flag = connect(soc, (struct sockaddr*)&_addr, sizeof(_addr));
+    std::cout << "connect_flag: " << connect_flag << std::endl;
+    if(connect_flag == 0){
         cout << "connect!" << endl;
     }else{
         cout << "not connect!" << endl;
-        return -1;
+        return false;
     }
-
-
-    // パケット送出
-    int count = 1;
-    for(int i=0; i<10000; i++) {
-        cout << "[" << count << "] sending..." << endl;
-        count++;
-
-        // const char *send_text = "this is me";
-        // send(dst_socket, send_text, strlen(send_text), 0);
-        send(dst_socket, send_text, 5, 0);
-
-
-        usleep(100); // 0.00001s
-    }
-
-    // ソケット終了
-    close(dst_socket);
-    return 0;
+    return true;
 }
 
-bool Tcp_ip::client(int port_num){
+bool Tcp_ip::Server(const char* send_text){
+    int soc = socket(AF_INET, SOCK_STREAM, 0); // ソケットを作成
+    this->Making_sockaddr_in(); // sockaddr_inで書類を作成
+
+    if(this->Connecting(soc) == false) return false; // 接続
+
+    // パケット送出
+        cout << "[" << send_text << "] sending..." << endl;
+        send(soc, send_text, 5, 0);
+        usleep(100); // 0.00001s
+
+    // ソケット終了
+    close(soc);
+    return true;
+}
+
+bool Tcp_ip::Client(int port_num){
     // ポート番号、ソケット
     unsigned short port = port_num;
     int src_socket; // 自分
