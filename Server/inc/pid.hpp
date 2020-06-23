@@ -1,3 +1,5 @@
+#include <iostream>
+
 class PidControler
 {
 private:
@@ -9,9 +11,12 @@ private:
     float _adjustment;
     float _diff[2];
     float _integral;
+
+    bool _gainCeck;
 public:
-    PidControler(float p_gain, float i_gain, float d_gain, float dt);
+    PidControler(float dt);
     ~PidControler();
 
+    void SetGain(float p_gain, float i_gain, float d_gain);
     float run(float ref, float state);
 };
