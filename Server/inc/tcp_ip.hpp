@@ -1,43 +1,44 @@
-#ifndef TCP_IP
-#define TCP_IP
-
+#include <stdio.h> //printf(), fprintf(), perror()
+#include <sys/socket.h> //socket(), bind(), accept(), listen()
+#include <arpa/inet.h> // struct sockaddr_in, struct sockaddr, inet_ntoa(), inet_aton()
+#include <stdlib.h> //atoi(), exit(), EXIT_FAILURE, EXIT_SUCCESS
+#include <string.h> //memset(), strcmp()
+#include <unistd.h> //close()
 #include <iostream>
-#include <strings.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-using namespace std;
 
-#define BUFFER_SIZE 5
-struct Client_data
-{
-    unsigned short port;
-    const char* ip_addres;
-    int soc;
-    struct sockaddr_in addr;
-};
+#define QUEUELIMIT 5
+#define MSGSIZE 5
+#define BUFSIZE (MSGSIZE)
 
-struct Server_data
-{
-    unsigned short port;
-    int my_socket; // 自分 
-    int op_socket; // 相手 (opponent)
-    struct sockaddr_in my_addr; // 自分
-    struct sockaddr_in op_addr; // 相手 (opponent)
-};
-
-class Tcp_ip
+class MemoClient
 {
 private:
-    Client_data _cdata;
-    Server_data _sdata;
-    // int Making_sockaddr_in();
-    int Making_sockaddr_in(struct sockaddr_in &addr, unsigned short port, const char* ip_addres);
-    bool Connecting(int soc);
+    int sock;                          // local socket descriptor
+    struct sockaddr_in servSockAddr;   // server internet socket address
+    unsigned short servPort;           // server port number
+    char recvBuffer[BUFSIZE];          // receive temporary buffer
+    char sendBuffer[BUFSIZE];          // send temporary buffer
 public:
-    Tcp_ip();
-    ~Tcp_ip();
+    MemoClient(unsigned short port, const char* ip_addres);
+    ~MemoClient();
 
-    bool Client(int port_num, const char* ip_addres, const char* send_text);
-    bool Server(int port_num);
+    void Send(char text[5]);
 };
-#endif//TCP_IP
+
+class MemoServer
+{
+private:
+    int servSock;                      // server socket descriptor
+    int clitSock;                      // client socket descriptor
+    struct sockaddr_in servSockAddr;   // server internet socket address
+    struct sockaddr_in clitSockAddr;   // client internet socket address
+    unsigned short servPort;           // server port number
+    unsigned int clitLen;              // client internet socket address length
+    char recvBuffer[BUFSIZE];          // receive temporary buffer
+    int recvMsgSize, sendMsgSize;      // recieve and send buffer size
+public:
+    MemoServer(unsigned short port);
+    ~MemoServer();
+
+    void Read();
+};

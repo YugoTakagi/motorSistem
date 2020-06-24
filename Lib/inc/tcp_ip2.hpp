@@ -35,9 +35,9 @@ private:
     struct sockaddr_in _my_addr; // 自分
     struct sockaddr_in _op_addr; // 相手 (opponent)
 
-    char buffer[BUFFER_SIZE];
-    int bind_flag;
-    int recv_flag;
+    int _bind_flag;
+    int _recv_flag;
+    char _buffer[BUFFER_SIZE];
 public:
     TcpIpServer(int port_num);
     ~TcpIpServer();

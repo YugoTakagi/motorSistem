@@ -1,4 +1,4 @@
-#include "../inc/tcp_ip2.hpp"
+#include "../inc/tcp_ip.hpp"
 
 TcpIpClient::TcpIpClient(int port_num, const char* ip_addres)
 : _port(port_num), _ip_addres(ip_addres)
@@ -16,8 +16,22 @@ TcpIpClient::TcpIpClient(int port_num, const char* ip_addres)
 
 TcpIpClient::~TcpIpClient()
 {
+
+}
+
+bool TcpIpClient::Send(const char* send_text)
+{
+    // 接続
+    if(this->Connecting(_socket) == false) return false;
+
+    // パケット送出
+    cout << "[" << send_text << "] sending..." << endl;
+    send(_socket, send_text, 5, 0);
+    usleep(100); // 0.00001s
+
     // ソケット終了
     close(_socket);
+    return true;
 }
 
 bool TcpIpClient::Connecting(int socket)
@@ -34,21 +48,8 @@ bool TcpIpClient::Connecting(int socket)
     return true;
 }
 
-bool TcpIpClient::Send(const char* send_text)
-{   
-    // 接続
-    if(this->Connecting(_socket) == false) return false;
-    // パケット送出
-    cout << "[" << send_text << "] sending..." << endl;
-    send(_socket, send_text, 5, 0);
-    usleep(100); // 0.00001s
-    return true;
-}
 
 
-/*
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- */
 
 
 TcpIpServer::TcpIpServer(int port_num)
@@ -58,41 +59,41 @@ TcpIpServer::TcpIpServer(int port_num)
 
     // sockaddr_inで書類を作成
     memset(&_my_addr, 0, sizeof(_my_addr));
-    _my_addr.sin_port = htons(_port);
+    _my_addr.sin_port = htons(port_num);
     _my_addr.sin_family = AF_INET;
     _my_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-    // bind
-    bind_flag = bind(_my_socket, (struct sockaddr *)&_my_addr, sizeof(_my_addr));
 }
 
 TcpIpServer::~TcpIpServer()
 {
-    close(_my_socket);
 }
 
 bool TcpIpServer::Listen()
 {
+    // bind
+    _bind_flag = bind(_my_socket, (struct sockaddr *)&_my_addr, sizeof(_my_addr));
+
     unsigned int op_addr_size = sizeof(_op_addr);
     // 接続の許可 // TCPクライアントからの接続要求を待てる状態にする
     listen(_my_socket, 1); // Queue の 最大長 1
 
     // 接続の受付け
-    // std::cout << "Waiting for connection ...  [by_client: receive]" << endl;
-
+    std::cout << "Waiting for connection ...  [by_client: receive]" << endl;
     _op_socket = accept(_my_socket, (struct sockaddr *)&_op_addr, &op_addr_size);
-    // std::cout << "Connected from " << inet_ntoa(_op_addr.sin_addr) << endl;
+    std::cout << "Connected from " << inet_ntoa(_op_addr.sin_addr) << endl;
+    std::cout << "connect!" << endl;
 
     // パケット受信
     while(true)
     {
-        recv_flag = recv(_op_socket, buffer, BUFFER_SIZE, 0);
-        if(recv_flag ==-1) { bind_flag = close(_op_socket); break; }
-        if(recv_flag == 0) { bind_flag = close(_op_socket); break; }
+        _recv_flag = recv(_op_socket, _buffer, BUFFER_SIZE, 0);
+        if(_recv_flag ==-1) { _bind_flag = close(_op_socket); break; }
+        if(_recv_flag == 0) { _bind_flag = close(_op_socket); break; }
 
-        std::cout << "received : " << buffer << endl;
+        std::cout << "received : " << _buffer << endl;
     }
-    
+
     // std::cout << "next listen" << endl;
+    close(_my_socket);
     return 0;
 }
