@@ -39,7 +39,7 @@ MemoClient::~MemoClient()
     close(this->sock);
 }
 
-void MemoClient::Send(char text[5])
+void MemoClient::Send(const char text[5])
 {
     strcpy(sendBuffer, text);
     if (send(sock, sendBuffer, strlen(sendBuffer), 0) <= 0) {

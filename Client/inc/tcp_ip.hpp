@@ -22,7 +22,7 @@ public:
     MemoClient(unsigned short port, const char* ip_addres);
     ~MemoClient();
 
-    void Send(char text[5]);
+    void Send(const char text[5]);
 };
 
 class MemoServer

@@ -78,15 +78,8 @@ MemoServer::MemoServer(unsigned short port)
         std::cerr << "listen() failed." << std::endl;
         exit(EXIT_FAILURE);
     }
-}
 
-MemoServer::~MemoServer()
-{
-    close(servSock);
-}
-
-void MemoServer::Read()
-{
+    /* ----- */
     this->clitLen = sizeof(this->clitSockAddr);
 
     if ((this->clitSock = accept(this->servSock, (struct sockaddr *) &this->clitSockAddr, &this->clitLen)) < 0) {
@@ -94,17 +87,31 @@ void MemoServer::Read()
         exit(EXIT_FAILURE);
     }
     printf("connected from %s.\n", inet_ntoa(clitSockAddr.sin_addr));
+}
 
-    while(true) {
+MemoServer::~MemoServer()
+{
+    close(clitSock);
+    close(servSock);
+}
+
+void MemoServer::Read()
+{
+    
+
+    // while(true) {
         if ((recvMsgSize = recv(clitSock, recvBuffer, BUFSIZE, 0)) < 0) {
             perror("recv() failed.");
             exit(EXIT_FAILURE);
         } else if(recvMsgSize == 0){
             fprintf(stderr, "connection closed by foreign host.\n");
-            break;
+            // break;
         }
         std::cout << ">> " << recvBuffer << std::endl;
-    }
+    // }
+}
 
-    close(clitSock);
+char* MemoServer::OfRecvBuffer()
+{
+    return this->recvBuffer;
 }

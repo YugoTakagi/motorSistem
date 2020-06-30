@@ -36,9 +36,11 @@ private:
     unsigned int clitLen;              // client internet socket address length
     char recvBuffer[BUFSIZE];          // receive temporary buffer
     int recvMsgSize, sendMsgSize;      // recieve and send buffer size
+    
 public:
     MemoServer(unsigned short port);
     ~MemoServer();
 
     void Read();
+    char* OfRecvBuffer();
 };
