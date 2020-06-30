@@ -107,7 +107,7 @@ void MemoServer::Read()
             fprintf(stderr, "connection closed by foreign host.\n");
             // break;
         }
-        std::cout << ">> " << recvBuffer << std::endl;
+        // std::cout << ">> " << recvBuffer << std::endl;
     // }
 }
 
