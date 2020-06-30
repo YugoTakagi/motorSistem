@@ -1,4 +1,4 @@
-#include "Tcp_Ip.hpp"
+#include "../inc/Tcp_Ip.hpp"
 
 MemoClient::MemoClient(unsigned short port, const char* ip_addres)
 {

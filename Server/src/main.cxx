@@ -1,16 +1,18 @@
-// #include "../inc/tcp_ip.hpp"
-#include "../inc/tcp_ip2.hpp"
+#include "../inc/Tcp_Ip.hpp"
+
+#define START 123
+#define END 321
 
 int main(void)
 {
     int port = 55555;
     // const char* adr = "127.0.0.1";
     
-    TcpIpServer tis(port);
+    MemoServer tis(port);
     
     while (true)
     {
-        tis.Listen();
+        tis.Read();
     }
     return 0;
 }

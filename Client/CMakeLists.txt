@@ -5,7 +5,6 @@ set(INCLUDE "inc")
 
 include_directories(${INCLUDE})
 file(GLOB SOURCE_FILES "src/*.cxx" "src/*.cpp" "src/*.c")
-#print_list("src" "${SOURCE_FILES}")
 set(SOURCE ${SOURCE_FILES})
 
 # 実行ファイルの作成を指示する

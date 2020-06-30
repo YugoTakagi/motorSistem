@@ -1,4 +1,4 @@
-#include "Tcp_Ip.hpp"
+#include "../inc/Tcp_Ip.hpp"
 
 MemoClient::MemoClient(unsigned short port, const char* ip_addres)
 {
@@ -103,14 +103,6 @@ void MemoServer::Read()
             fprintf(stderr, "connection closed by foreign host.\n");
             break;
         }
-
-        // if((sendMsgSize = send(clitSock, recvBuffer, recvMsgSize, 0)) < 0){
-        //     perror("send() failed.");
-        //     exit(EXIT_FAILURE);
-        // } else if(sendMsgSize == 0){
-        //     fprintf(stderr, "connection closed by foreign host.\n");
-        //     break;
-        // }
         std::cout << ">> " << recvBuffer << std::endl;
     }
 

@@ -1,21 +1,23 @@
-// #include "../inc/tcp_ip.hpp"
-#include "../inc/tcp_ip2.hpp"
+#include "../inc/Tcp_Ip.hpp"
+
+#define START "123"
+#define END "321"
 
 int main(void)
 {
-    int port = 55555;
+    unsigned short port = 55555;
     const char* addr = "127.0.0.1";
-    // const char* item = "12345";
+    char item[] = START;
 
-    std::string buf;
-    TcpIpClient tic(port, addr);
+    // std::string buf;
+    MemoClient tic(port, addr);
     while (true)
     {
-        std::cout << "Please key..." << std::endl;
-        std::cin >> buf;
-        if(buf == "exit") break;
-        std::cout << "key: ["<<buf<<"]" << std::endl;
-        tic.Send(buf.c_str());
+        // std::cout << "Please key..." << std::endl;
+        // std::cin >> buf;
+        // if(buf == "exit") break;
+        // std::cout << "key: ["<<buf<<"]" << std::endl;
+        tic.Send(item);
     }
     
     return 0;
