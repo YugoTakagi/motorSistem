@@ -8,22 +8,7 @@
 
 #define QUEUELIMIT 5
 #define MSGSIZE 5
-#define BUFSIZE (MSGSIZE)
-
-class MemoClient
-{
-private:
-    int sock;                          // local socket descriptor
-    struct sockaddr_in servSockAddr;   // server internet socket address
-    unsigned short servPort;           // server port number
-    char recvBuffer[BUFSIZE];          // receive temporary buffer
-    char sendBuffer[BUFSIZE];          // send temporary buffer
-public:
-    MemoClient(unsigned short port, const char* ip_addres);
-    ~MemoClient();
-
-    void Send(char text[5]);
-};
+#define BUFSIZE 5
 
 class MemoServer
 {
@@ -35,10 +20,15 @@ private:
     unsigned short servPort;           // server port number
     unsigned int clitLen;              // client internet socket address length
     char recvBuffer[BUFSIZE];          // receive temporary buffer
+    // char sendBuffer[BUFSIZE];          // send temporary buffer
     int recvMsgSize, sendMsgSize;      // recieve and send buffer size
+    
 public:
-    MemoServer(unsigned short port);
+    MemoServer();
     ~MemoServer();
 
+    void SetPort(unsigned short port);
     void Read();
+    void Send(const char text[5]);
+    char* OfRecvBuffer();
 };
