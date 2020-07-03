@@ -1,20 +1,4 @@
-#include "../inc/i2c.hpp"
-#include <iostream>
-
-#define VELOCITY_MAX 100.0
-#define VELOCITY_MIN -100.0
-
-class VirtualMotor
-{
-private:
-
-public:
-    VirtualMotor(/* args */);
-    ~VirtualMotor();
-
-    bool SetVelocity(float velocity);
-    bool SetDuty(int duty);
-};
+#include "../inc/virtualMotor.hpp"
 
 VirtualMotor::VirtualMotor(/* args */)
 {
@@ -42,5 +26,4 @@ bool VirtualMotor::SetVelocity(float velocity)
         std::cout << "motor velocity: " << velocity << std::endl;
         return true;
     }
-    
 }
