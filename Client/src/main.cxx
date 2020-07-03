@@ -93,7 +93,6 @@ int main(int argc, char const *argv[])
             break;
         }
     }
-
 // ~Start muscle control
 /* ============================================================== */
 // Make log
