@@ -58,9 +58,12 @@ int main(int argc, char const *argv[])
         if(index == size) break;
     // main loop
 
-        std::cout <<"["<< index <<"] ";
+        
         state1[index] = StateForce();
+
+        std::cout <<"["<< index <<"] ";
         adj1[index] = vasInt.Stretch(ref1[index], state1[index]);
+
 
     // ~main loop
         ++index;
